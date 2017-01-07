@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+
+set timeout 20
+
+spawn "faxsetup"
+
+expect "Are these ok" { send "yes\r" }
+expect {
+  "Can I terminate this faxq process" {
+     send "yes\r"
+     exp_continue
+   }
+ "Should I restart the HylaFAX server processes" { send "yes\r" }
+}
+expect "Is it ok to send a QUIT command to each process" { send "yes\r" }
+
+interact
+

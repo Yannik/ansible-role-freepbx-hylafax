@@ -1,0 +1,55 @@
+- name: Install required packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - hylafax-server
+    - hylafax-client
+    - iaxmodem
+
+- name: Create iaxmodem config files
+  template: src=iaxmodem-cfg dest=/etc/iaxmodem/iaxmodem-cfg.ttyIAX{{ item }}
+  with_sequence: start=0 end=3
+
+- name: Set up iaxmodems with asterisk
+  blockinfile:
+    dest: /etc/asterisk/iax_custom.conf
+    marker: "; {mark} ANSIBLE MANAGED BLOCK for tty{{ item }}"
+    content: "{{ lookup('template', 'iax_custom.conf') }}"
+  with_sequence: start=0 end=3
+
+- name: Set up hylafax config file
+  copy:
+    src: /usr/share/doc/iaxmodem/examples/config.ttyIAX
+    dest: /var/spool/hylafax/etc/config.ttyIAX{{ item }}
+    owner: uucp
+    group: uucp
+    force: no
+    remote_src: yes
+  with_sequence: start=0 end=3
+
+# Previously, /etc/inittab was used for this:
+#t$COUNT:23:respawn:/usr/local/sbin/faxgetty ttyIAX$COUNT > /var/log/iaxmodem/iaxmodem.log
+- name: Install faxgetty systemd script
+  copy:
+    src: faxgetty@.service
+    dest: /etc/systemd/system/faxgetty@.service
+
+- name: Enable faxgetty services
+  service: name=faxgetty@{{ item }} enabled=yes state=started
+  with_sequence: start=0 end=3
+
+- name: Setup dialplan
+  blockinfile:
+    dest: /etc/asterisk/extensions_custom.conf
+    marker: "; {mark} ANSIBLE MANAGED BLOCK"
+    content: "{{ lookup('template', 'extensions_custom.conf') }}"
+  notify: Reload asterisk modules
+
+- name: fax patch for iax registrations
+  blockinfile:
+    dest: /etc/asterisk/iax_registrations_custom.conf
+    marker: "; {mark} ANSIBLE MANAGED BLOCK"
+    content: |
+      minregexpire=60
+      maxregexpire=600
+      defaultexpire=300
+

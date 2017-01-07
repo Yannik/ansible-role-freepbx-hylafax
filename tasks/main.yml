@@ -1,0 +1,2 @@
+- include: freepbx-hylafax.yml
+  tags: hylafax

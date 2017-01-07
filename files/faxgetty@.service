@@ -1,0 +1,15 @@
+[Unit]
+Description=FaxGetty Start Modem ttyIAX%i
+After=getty.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+Restart=always
+ExecStart=/usr/sbin/faxgetty ttyIAX%i > /var/log/iaxmodem/iaxmodem.log
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target
+
