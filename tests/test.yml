@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - ansible-role-freepbx-hylafax
+  vars:
+    hylafax_iax_password: passw0rd
