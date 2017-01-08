@@ -2,6 +2,11 @@
 - hosts: localhost
   remote_user: root
   roles:
+    - Yannik.asterisk
+    - role: Yannik.php
+      php_install_versions: ['5.6']
+    - geerlingguy.composer
+    - Yannik.freepbx
     - ansible-role-freepbx-hylafax
   vars:
     hylafax_iax_password: passw0rd
