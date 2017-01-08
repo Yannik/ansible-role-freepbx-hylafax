@@ -1,5 +1,7 @@
 - name: Yannik.asterisk
+  src: https://github.com/Yannik/ansible-role-asterisk.git
 - name: Yannik.php
 - name: geerlingguy.composer
 - name: Yannik.freepbx
+  src: https://github.com/Yannik/ansible-role-freepbx.git
 
