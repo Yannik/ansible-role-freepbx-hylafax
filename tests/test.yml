@@ -6,7 +6,8 @@
     - role: Yannik.php
       php_install_versions: ['5.6']
     - geerlingguy.composer
-    - Yannik.freepbx
+    - role: Yannik.freepbx
+      asterisk_db_password: passw0rd
     - ansible-role-freepbx-hylafax
   vars:
     hylafax_iax_password: passw0rd
