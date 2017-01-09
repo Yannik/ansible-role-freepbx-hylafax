@@ -36,6 +36,7 @@
 - name: Enable faxgetty services
   service: name=faxgetty@{{ item }} enabled=yes state=started
   with_sequence: start=0 end=3
+  when: ansible_service_mgr == 'systemd'
 
 - name: Setup dialplan
   blockinfile:
