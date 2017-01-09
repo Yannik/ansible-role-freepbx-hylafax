@@ -1,9 +1,5 @@
-- name: Install required packages
-  apt: pkg={{ item }} state=present
-  with_items:
-    - hylafax-server
-    - hylafax-client
-    - iaxmodem
+- name: Install iaxmodem
+  apt: name=iaxmodem state=present
 
 - name: Create iaxmodem config files
   template: src=iaxmodem-cfg dest=/etc/iaxmodem/iaxmodem-cfg.ttyIAX{{ item }}
