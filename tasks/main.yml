@@ -1,2 +1,2 @@
-- include: freepbx-hylafax.yml
+- import_tasks: freepbx-hylafax.yml
   tags: hylafax
