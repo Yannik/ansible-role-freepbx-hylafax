@@ -1,2 +1,6 @@
 - name: Reload asterisk modules
   command: asterisk -rx "module reload"
+
+- name: Restart iaxmodem
+  service: name=iaxmodem state=restarted
+

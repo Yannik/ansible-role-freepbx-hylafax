@@ -4,10 +4,12 @@
 - name: Create iaxmodem config files
   template: src=iaxmodem-cfg dest=/etc/iaxmodem/iaxmodem-cfg.ttyIAX{{ item }}
   with_sequence: start=0 end=3
+  notify: Restart iaxmodem
 
 - name: Set up iaxmodems with asterisk
   blockinfile:
     dest: /etc/asterisk/iax_custom.conf
+    create: yes
     marker: "; {mark} ANSIBLE MANAGED BLOCK for tty{{ item }}"
     content: "{{ lookup('template', 'iax_custom.conf') }}"
   with_sequence: start=0 end=3
@@ -37,6 +39,7 @@
 - name: Setup dialplan
   blockinfile:
     dest: /etc/asterisk/extensions_custom.conf
+    create: yes
     marker: "; {mark} ANSIBLE MANAGED BLOCK"
     content: "{{ lookup('template', 'extensions_custom.conf') }}"
   notify: Reload asterisk modules
