@@ -44,6 +44,12 @@
     content: "{{ lookup('template', 'extensions_custom.conf') }}"
   notify: Reload asterisk modules
 
+- name: Set USE_FAXGETTY=init in /etc/default/hylafax, as faxgetty is started using systemd (otherwise hylafax will try to start faxgetty which fails)
+  lineinfile:
+    path: /etc/default/hylafax
+    line: USE_FAXGETTY=init
+    insertafter: "# USE_FAXGETTY=yes"
+
 - name: fax patch for iax registrations
   blockinfile:
     dest: /etc/asterisk/iax_registrations_custom.conf
