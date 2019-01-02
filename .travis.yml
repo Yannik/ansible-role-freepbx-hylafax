@@ -5,6 +5,9 @@ python: "2.7"
 sudo: true
 dist: xenial
 
+services:
+  - mysql
+
 addons:
   apt:
     packages:
@@ -18,9 +21,6 @@ install:
   # Create ansible.cfg with correct roles_path
   - printf '[defaults]\nroles_path=../' >ansible.cfg
 
-  # otherwise asterisk install_prereq makes problems
-  - sudo apt upgrade -y
-
 script:
   # Install requirements
   - ansible-galaxy install -r tests/requirements.yml -p ../
@@ -29,12 +29,12 @@ script:
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   # Run playbook
-  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
+  - ansible-playbook tests/test.yml -i tests/inventory -vvvv --connection=local --sudo
 
   # Run playbook again to check idempotency
   - ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo --diff | tee idempotence-test.log
   - >
-    grep -q 'asterisk-docker.*changed=0.*failed=0' idempotence-test.log
+    grep -q 'ok.*changed=0.*failed=0' idempotence-test.log
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 

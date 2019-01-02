@@ -1,5 +1,3 @@
-- name: Yannik.asterisk
-- name: ngpestelos.mysql
 - name: Yannik.php
 - name: geerlingguy.composer
 - name: Yannik.freepbx
