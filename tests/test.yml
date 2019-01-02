@@ -2,7 +2,6 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - Yannik.asterisk
     - role: Yannik.php
       php_install_versions: ['7.2']
       php_default_cli_version: '7.2'
@@ -11,5 +10,7 @@
       asterisk_db_password: passw0rd
     - Yannik.hylafax
     - ansible-role-freepbx-hylafax
+  environment:
+    CI: true
   vars:
     hylafax_iax_password: passw0rd
