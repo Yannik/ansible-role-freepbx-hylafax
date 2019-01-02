@@ -5,6 +5,7 @@ python: "2.7"
 sudo: true
 dist: xenial
 
+# this STARTS services. they are installed anyway.
 services:
   - mysql
 
