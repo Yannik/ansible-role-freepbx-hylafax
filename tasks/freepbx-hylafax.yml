@@ -24,6 +24,16 @@
     remote_src: yes
   with_sequence: start=0 end=3
 
+- name: Install iaxmodem systemd script
+  copy:
+    src: iaxmodem@.service
+    dest: /etc/systemd/system/iaxmodem@.service
+
+- name: Enable iaxmodem services
+  service: name=iaxmodem@{{ item }} enabled=yes state=started
+  with_sequence: start=0 end=3
+  when: ansible_service_mgr == 'systemd'
+
 # Previously, /etc/inittab was used for this:
 #t$COUNT:23:respawn:/usr/local/sbin/faxgetty ttyIAX$COUNT > /var/log/iaxmodem/iaxmodem.log
 - name: Install faxgetty systemd script

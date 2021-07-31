@@ -1,0 +1,12 @@
+[Unit]
+Description=iaxmodem ttyIAX%i
+
+[Service]
+Type=simple
+Restart=always
+#ExecStart=/usr/bin/iaxmodem iaxmodem-cfg.ttyIAX%i
+ExecStart=/usr/bin/unbuffer /usr/bin/iaxmodem iaxmodem-cfg.ttyIAX%i
+
+[Install]
+WantedBy=getty.target
+WantedBy=multi-user.target
