@@ -7,7 +7,7 @@ Type=simple
 User=root
 Group=root
 Restart=always
-ExecStart=/usr/sbin/faxgetty ttyIAX%i > /var/log/iaxmodem/iaxmodem.log
+ExecStart=/usr/sbin/faxgetty ttyIAX%i
 TimeoutSec=0
 
 [Install]
